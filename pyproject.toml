@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wifi8-cobf-explainable"
+version = "3.0.0"
+description = "Explainable single-antenna-STA LOS Co-BF simulator with ZF and RZF and two-cluster ICI diagnostics"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.26", "matplotlib>=3.8", "pandas>=2.0", "scipy>=1.11", "PyYAML>=6.0"]
+
+[tool.setuptools.packages.find]
+include = ["wifi_sim*"]

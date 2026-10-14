@@ -1,0 +1,54 @@
+network:
+  area_width: 100.0
+  area_height: 100.0
+  num_aps: 10
+  num_stas: 30
+  association_radius: 30.0
+  max_coordination_distance: 40.0
+  randomize_array_orientations: false
+  seed: 12345
+channel:
+  center_frequency_hz: 5180000000.0
+  bandwidth_hz: 80000000.0
+  path_loss_exponent: 3.0
+  reference_distance_m: 1.0
+  minimum_distance_m: 1.0
+  shadowing_std_db: 0.0
+  noise_figure_db: 7.0
+  element_spacing_wavelengths: 0.5
+rf:
+  ap_tx_power_dbm: 20.0
+  ap_antennas: 4
+  sta_antennas: 1
+beamforming:
+  scheme: zf                    # zf | mmse
+  mmse_alpha: 0.1              # dimensionless relative regularization; ONLY for mmse
+  zf_rank_tolerance: 1.0e-9
+  zf_min_desired_projection: 1.0e-8
+mac:
+  slot_time_us: 9.0
+  sifs_us: 16.0
+  aifsn: 3
+  cw_min: 15
+  cw_max: 1023
+  retry_limit: 7
+  cca_threshold_dbm: -78.0
+  nav_enabled: true
+  ppdu_duration_us: 1000.0
+  ack_duration_us: 32.0
+  coordination_overhead_us: 200.0
+visualization:
+  require_two_cobf_clusters: true
+  grid_resolution: 100
+  beam_angular_resolution_deg: 0.25
+  plot_all_active_aps: true
+  show_inactive_neighbor_stas: true
+  inactive_neighbor_radius_m: 40.0
+traffic:
+  payload_size_bytes: 1500
+simulation:
+  sim_time_s: 3.0
+  timing_window_ms: 20.0
+monte_carlo:
+  num_runs: 20
+  dev_runs: 3
