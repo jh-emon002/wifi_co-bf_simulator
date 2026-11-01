@@ -2,7 +2,7 @@
 
 A runnable **downlink**, geometry-based, discrete-event Wi-Fi multi-AP experiment for studying **inter-cluster interference (ICI)** under coordinated beamforming (Co-BF). The simulator preserves CSMA/CA, AP pairing, physical carrier sensing, omnidirectional NAV advertisement, and per-AP throughput accounting from the user's earlier angle-based simulator. It adds single-antenna STAs, genuinely simultaneous two-cluster snapshots, user-selectable ZF / MMSE-style (RZF) precoders, and test_ula-style physical beam-pattern diagnostics.
 
-**This is a controlled/explainable research baseline, not a validated full IEEE 802.11bn simulator.** Its LOS-only narrowband channel, analytical ULA, simplified MAC/ACK/MCS, and optional empirical large-scale loss are deliberately transparent. These approximations must be disclosed in a paper; higher-fidelity tests should be added before generalizing to real deployments.
+
 
 ## 1. Configuration choices
 
@@ -27,7 +27,7 @@ A runnable **downlink**, geometry-based, discrete-event Wi-Fi multi-AP experimen
 
 Each AP transmits **only to STAs associated with that AP**. The cooperating APs share CSI, and each AP uses all same-cluster STA channel rows to form interference-aware transmit beams. It is **not** joint transmission / network MIMO with every AP sending every user's payload. This choice keeps the model aligned with coordinated beamforming rather than covertly changing the physical transmission mode.
 
-## 2. PHY equations, no receive combining
+## 2. PHY equations
 
 For one downlink stream from AP `a` to single-antenna STA `k`,
 
@@ -129,18 +129,9 @@ python scripts/sweep_mmse_alpha.py --runs 10 --sim-time 1 --alphas 0.001 0.01 0.
 
 `compare_precoders.py` records paired random seeds across algorithms/modes in `results/summaries/zf_mmse_comparison.csv`, including whether there was a genuine two-cluster snapshot. It does not pretend that subsequent MAC contention trajectories remain identical after different beamforming decisions. Mode C is a **counterfactual PHY upper-bound at a fixed captured state**; its end-to-end throughput need not be an exact paired upper bound for Mode B if the MAC evolves differently.
 
-## 7. Accuracy limitations before a journal paper
 
-- Single-LOS-ray, narrowband (not frequency-selective OFDM): the default path-loss exponent 3 is an **empirical indoor attenuation assumption**, not unobstructed Friis at all distances; shadowing is off by default.
-- Ideal isotropic elements and 2D co-polarized ULAs, not measured AP antenna patterns. Mirrors in polar plots are physically plausible for this ideal ULA.
-- Perfect quasi-static instantaneous CSI and cooperation within each Co-BF pair; no CSI feedback delay/error, carrier frequency offsets, synchronization errors, external channel-state sharing or imperfect reciprocity.
-- Simplified NAV/control framing, aggregate-energy CCA, fixed PPDU duration, threshold-based PHY success (rather than packet-level PER/BLER curves).
-- MMSE-style RZF uses user-tunable regularization, not optimized power allocation or true multi-cell weighted MMSE.
-- Per-AP EIRP cap not enforced; conducted power is conserved. IEEE 802.11bn compliance is not established by these code-level tests.
 
-**Journal workflow**: treat Version 3 as a transparent baseline, reproduce Mode A/B/C + ZF/RZF across random topology/traffic seeds, then add one optimization mechanism (e.g. interference-constrained scheduling/beamforming via Lyapunov, safe RL, MARL, or a graph policy) and later stress-test under CSI error, non-LOS channels, load changes, and fairness constraints. Only claim improvements measured under well-matched scenarios; avoid claiming globally optimal control based solely on simulation.
-
-## 8. Project tree
+## 7. Project tree
 
 ```text
 wifi8_cobf_explainable_v3/
